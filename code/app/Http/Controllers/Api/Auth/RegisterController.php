@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Api\BaseController as BaseController;
+use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Validator;
 
 class RegisterController extends BaseController
 {
@@ -17,18 +17,8 @@ class RegisterController extends BaseController
      * @return \Illuminate\Http\Response
      */
 
-    public function register(Request $request)
+    public function register(StoreUserRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name'       => 'required',
-            'email'      => 'required|email',
-            'password'   => 'required',
-            'c_password' => 'required|same:password',
-        ]);
-
-        if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
-        }
 
         $input             = $request->all();
         $input['password'] = bcrypt($input['password']);
