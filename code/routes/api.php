@@ -20,6 +20,17 @@ Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [RegisterController::class, 'login']);
 
 Route::middleware('auth:api')->group(function () {
-    Route::apiResource('products', ProductController::class);
+    Route::apiResource('products', ProductController::class)->only([
+        'store',
+        'edit',
+        'update',
+        'destroy',
+    ]);
     Route::apiResource('users', UserController::class);
 });
+
+# Public
+Route::apiResource('products', ProductController::class)->only([
+    'show',
+    'index',
+]);
