@@ -12,11 +12,15 @@ class Product extends Model
 
     protected $fillable = [
         'name',
-        'slug',
         'description',
         'price',
         'status',
     ];
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     protected static function boot()
     {
