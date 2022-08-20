@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use App\Src\Products\Application\DestroyProduct;
+use App\Src\Products\Application\SearchProduct;
+use App\Src\Products\Application\StoreProduct;
+use App\Src\Products\Application\UpdateProduct;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -15,9 +19,9 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(SearchProduct $search)
     {
-        $products = Product::all();
+        $products = $search->get();
         return ProductResource::collection($products);
     }
 
@@ -37,10 +41,17 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProductRequest $request)
+    public function store(StoreProductRequest $request, StoreProduct $store)
     {
-        $products = Product::create($request->all());
-        return new ProductResource($products);
+        $product = $store(
+            $request->name,
+            $request->description,
+            $request->price,
+            $request->status
+
+        );
+
+        return new ProductResource($product);
     }
 
     /**
@@ -72,10 +83,14 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreProductRequest $request, Product $product)
+    public function update(StoreProductRequest $request, Product $product, UpdateProduct $update)
     {
-        $post->update($request->all());
-        return new ProductResource($post);
+        $product = $update(
+            $product,
+            $request->validated()
+        );
+
+        return new ProductResource($product);
     }
 
     /**
@@ -84,9 +99,10 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product, DestroyProduct $destroy)
     {
-        $product->delete();
+
+        $destroy($product);
 
         return response(null, 204);
     }

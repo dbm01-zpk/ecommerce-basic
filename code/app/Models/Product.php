@@ -31,6 +31,14 @@ class Product extends Model
             $product->save();
         });
 
+        static::updating(function ($product) {
+
+            if ($product->isDirty('name')) {
+                $product->slug = $product->createSlug($product->name);
+            }
+
+        });
+
     }
 
     private function createSlug($name)
