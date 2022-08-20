@@ -1,0 +1,3 @@
+db/datos/*
+.env
+code/public/*.zip

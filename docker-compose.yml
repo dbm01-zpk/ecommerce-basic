@@ -1,0 +1,57 @@
+version: '3'
+services:
+
+  # --------------------------------------
+  #PHP Service
+  app:
+    image: burns-img
+    build:
+      context: .
+      dockerfile: ./app/Dockerfile
+      args:
+        - APP_PATH_CODE=$APP_PATH_CODE
+    restart: on-failure
+    env_file:
+      - .env
+    environment:
+      CONTAINER_ROLE: app
+
+    working_dir: /var/www
+    volumes:
+      - ./$APP_PATH_CODE/:/var/www:z
+      - ./app/php/local.ini:/usr/local/etc/php/conf.d/local.ini:z
+    links:
+      - db
+
+  #PHP -> Nginx Service
+  webserver:
+    image: nginx:alpine
+    restart: on-failure
+    ports:
+      - $APP_EXPOSE_PORT:80
+    volumes:
+      - ./$APP_PATH_CODE/:/var/www:z
+      - ./nginx/conf.d/:/etc/nginx/conf.d/:z
+
+    links:
+      - app
+
+    env_file:
+      - .env
+
+  # --------------------------------------
+  # MySQL Service
+  db:
+    build:
+      context: ./db/
+      dockerfile: Dockerfile
+
+    restart: on-failure
+    ports:
+      - $DB_EXPOSE_PORT:3306
+    env_file:
+      - .env
+
+    volumes:
+      - ./db/datos/:/var/lib/mysql:z
+      - ./db/conf/my.cnf:/etc/mysql/my.cnf:z
