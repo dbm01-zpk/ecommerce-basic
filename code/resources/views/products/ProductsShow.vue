@@ -53,12 +53,9 @@ export default {
             await ProductServices.getProduct(product_slug)
                 .then(response => {
                     this.product = response.data.data
-                    console.log(this.product)
                 })
         },
         addToCart() {
-            // this.snackbar.text = `You added ${product.name} to your cart`;
-            // this.snackbar.status = true;
             this.$store.dispatch(
                 'cart/addToCart',
                 this.product
