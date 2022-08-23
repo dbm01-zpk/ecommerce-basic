@@ -7,7 +7,7 @@
 
         <v-row>
             <v-col cols="12">
-                <v-card>
+                <v-card class="elevation-5">
                     <v-card-title>
                         1 - CHECK ITEMS IN YOUR CART
                     </v-card-title>
@@ -21,7 +21,7 @@
             <v-row>
 
                 <v-col cols="12" md="6">
-                    <v-card>
+                    <v-card class="elevation-5">
                         <v-card-title>
                             2 - BILLING INFORMATION
                         </v-card-title>
@@ -83,7 +83,7 @@
                 </v-col>
 
                 <v-col cols="12" md="6">
-                    <v-card>
+                    <v-card class="elevation-5">
                         <v-card-title>
                             3 - PAYMENT INFORMATION
                         </v-card-title>

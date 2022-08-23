@@ -21,9 +21,7 @@
             <!-- Public -->
             <v-list-subheader>E-Commerce</v-list-subheader>
             <v-list-item v-for="item in items" :key="item.value" v-on:click="menuActionClick(item.value)">
-                <v-list-item-icon>
-                    <v-icon>{{ item.icon }}</v-icon>
-                </v-list-item-icon>
+                <v-icon>{{ item.icon }}</v-icon>
                 <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item>
 
@@ -31,19 +29,21 @@
             <v-list-subheader>Dashboard</v-list-subheader>
             <v-list-subheader>Auth</v-list-subheader>
 
-            <v-list-item :to="{ name: 'Index' }">
-                <v-list-item-icon>
-                    <v-icon>mdi-account-plus</v-icon>
-                </v-list-item-icon>
+            <v-list-item :to="{ name: 'register' }">
+                <v-icon>mdi-account-plus</v-icon>
                 <v-list-item-title>Register</v-list-item-title>
             </v-list-item>
 
-            <v-list-item :to="{ name: 'Index' }">
-                <v-list-item-icon>
-                    <v-icon>mdi-login</v-icon>
-                </v-list-item-icon>
+            <v-list-item :to="{ name: 'login' }">
+                <v-icon>mdi-login</v-icon>
 
                 <v-list-item-title>Login</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item v-on:click="logout">
+                <v-icon>mdi-exit-run</v-icon>
+
+                <v-list-item-title>Logout</v-list-item-title>
             </v-list-item>
 
         </v-list>
@@ -54,6 +54,7 @@
 <script>
 
 import { mapGetters } from 'vuex'
+import AuthService from '../../services/auth'
 export default {
     data: () => ({
         drawer: false,
@@ -76,7 +77,6 @@ export default {
             },
         ],
     }),
-
     watch: {
         group() {
             this.drawer = false
@@ -91,7 +91,14 @@ export default {
     methods: {
         menuActionClick(value) {
             this.$router.push({ name: value })
-        }
+        },
+        logout() {
+            AuthService.logout()
+                .then(response => {
+                    this.$router.push({ name: "Index" })
+                    this.$store.dispatch('auth/destroyToken')
+                });
+            }
     }
 }
 </script>

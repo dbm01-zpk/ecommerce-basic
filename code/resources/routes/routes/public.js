@@ -4,6 +4,8 @@ import Index from '../../views/public/Index.vue'
 import ProductsShow from '../../views/products/ProductsShow.vue'
 import Cart from '../../views/cart/CartDetails.vue'
 import Checkout from '../../views/cart/CheckoutItems.vue'
+import Register from '../../views/public/auth/Register.vue'
+import Login from '../../views/public/auth/Login.vue'
 
 export default [
     {
@@ -39,6 +41,22 @@ export default [
         path: '/checkout',
         name: 'checkout',
         component: Checkout,
+        meta: {
+            requiresAuth: false,
+        }
+    },
+    {
+        path: '/auth/login',
+        name: 'login',
+        component: Login,
+        meta: {
+            requiresAuth: false,
+        }
+    },
+    {
+        path: '/auth/register',
+        name: 'register',
+        component: Register,
         meta: {
             requiresAuth: false,
         }
