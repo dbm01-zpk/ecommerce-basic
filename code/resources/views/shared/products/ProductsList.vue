@@ -1,6 +1,7 @@
 <template>
     <v-container fluid>
         <v-row>
+
             <v-col lg="4" md="6" xs="12" v-for="product in products" :key="product.id">
                 <v-card>
                     <div class="d-flex flex-no-wrap justify-space-between">
@@ -37,7 +38,6 @@
                 </v-card>
             </v-col>
 
-
         </v-row>
 
         <v-row align="center" justify="center" v-if="!totalItems">
@@ -67,7 +67,6 @@
                 </v-btn>
             </template>
         </v-snackbar>
-
 
     </v-container>
 </template>

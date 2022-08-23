@@ -1,5 +1,5 @@
 <template>
-    <v-app-bar absolute color="primary" elevate-on-scroll>
+    <v-app-bar color="primary" elevate-on-scroll>
 
         <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
@@ -13,7 +13,6 @@
             <v-icon>mdi-cart</v-icon>
             Cart items ( {{ itemsQuantity }} )
         </v-btn>
-
 
     </v-app-bar>
 
@@ -30,6 +29,22 @@
 
             <!-- If user is logged in -->
             <v-list-subheader>Dashboard</v-list-subheader>
+            <v-list-subheader>Auth</v-list-subheader>
+
+            <v-list-item :to="{ name: 'Index' }">
+                <v-list-item-icon>
+                    <v-icon>mdi-account-plus</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title>Register</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item :to="{ name: 'Index' }">
+                <v-list-item-icon>
+                    <v-icon>mdi-login</v-icon>
+                </v-list-item-icon>
+
+                <v-list-item-title>Login</v-list-item-title>
+            </v-list-item>
 
         </v-list>
     </v-navigation-drawer>
