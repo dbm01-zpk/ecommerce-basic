@@ -19,9 +19,10 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(SearchProduct $search)
+    public function index(Request $request, SearchProduct $search)
     {
-        $products = $search->get();
+        $page     = $request->page ?? 1;
+        $products = $search->paginate(page:$page);
         return ProductResource::collection($products);
     }
 

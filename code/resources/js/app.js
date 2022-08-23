@@ -5,7 +5,15 @@
  */
 
 import './bootstrap';
+import 'vuetify/styles' // Global CSS has to be imported
 import { createApp } from 'vue';
+import router from '../routes/router'
+import store from '../store/store'
+import AppECommerce from '../views/AppECommerce.vue'
+
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -13,10 +21,19 @@ import { createApp } from 'vue';
  * to use in your application's views. An example is included for you.
  */
 
-const app = createApp({});
+// import Vuetify from 'vuetify'
+const vuetify = createVuetify({
+    components,
+    directives,
+})
 
-import ExampleComponent from './components/ExampleComponent.vue';
-app.component('example-component', ExampleComponent);
+const app = createApp({});
+app.use(router);
+app.use(store);
+app.use(vuetify);
+
+// import ExampleComponent from './components/ExampleComponent.vue';
+app.component('app-ecommerce', AppECommerce);
 
 /**
  * The following block of code may be used to automatically register your

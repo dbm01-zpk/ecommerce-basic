@@ -19,7 +19,7 @@ class SearchProduct
         return $this->query()->get();
     }
 
-    public function paginate($pageLength = self::SIZE_PAGE, $page)
+    public function paginate($pageLength = self::SIZE_PAGE, $page = 1)
     {
         return $this->query()->paginate($pageLength, page:$page);
     }
