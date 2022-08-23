@@ -15,6 +15,9 @@ import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
  * registering components with the application instance so they are ready
@@ -31,6 +34,7 @@ const app = createApp({});
 app.use(router);
 app.use(store);
 app.use(vuetify);
+app.use(VueSweetalert2);
 
 // import ExampleComponent from './components/ExampleComponent.vue';
 app.component('app-ecommerce', AppECommerce);

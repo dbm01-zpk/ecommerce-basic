@@ -6,8 +6,8 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn color="black" :to="{ name: 'cart' }">
-            <v-icon color="black">mdi-cart</v-icon>
+        <v-btn :to="{ name: 'cart' }">
+            <v-icon>mdi-cart</v-icon>
             Cart items ( {{ itemsQuantity }} )
         </v-btn>
 

@@ -5,7 +5,6 @@
             <h3>CHECKOUT </h3>
         </v-row>
 
-
         <v-row>
             <v-col cols="12">
                 <v-card>
@@ -18,7 +17,7 @@
             </v-col>
         </v-row>
 
-        <v-form v-model="valid" ref="form">
+        <v-form v-model="valid" v-if="items.length" ref="form">
             <v-row>
 
                 <v-col cols="12" md="6">
@@ -127,11 +126,19 @@
                     </v-card>
                 </v-col>
 
-
-
             </v-row>
         </v-form>
 
+        <v-row align="center" v-if="!items.length" justify="center">
+            <v-col cols="12" sm="12" md="10">
+                <v-alert align="center">
+                    You don't have products added to your cart
+                </v-alert>
+
+                <v-btn color="success" :to="{ name: 'Index' }">Go to products</v-btn>
+            </v-col>
+
+        </v-row>
 
     </v-container>
 </template>
@@ -140,24 +147,49 @@
 import { mapGetters } from 'vuex'
 import CartItems from './CartItems.vue'
 
-const numberGenerator = (init) => Array.from({ length: init }, (_, i) => i + 1)
-const rangeGenerator = (init, end) => {
-    const arr = [];
-    for (let i = init; i < end; i++) {
-        arr.push(i);
-    }
-
-    return arr;
-
-}
-
 export default {
     components: {
         CartItems,
     },
+    computed: {
+        ...mapGetters({
+            items: 'cart/getAllItems',
+        })
+    },
+    methods: {
+        async pay() {
+            let formValid = await this.$refs.form.validate();
+            if (formValid.valid) {
+                this.$swal({
+                    title: 'Confirm pay?',
+                    showDenyButton: true,
+                    confirmButtonText: 'Pay',
+                    denyButtonText: `Don't pay`,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.$store.dispatch('cart/checkout');
+                        this.$swal(
+                            'Good job!',
+                            'Pay ready!',
+                            'success'
+                        ).then((result) => {
+                            this.$router.push({ name: 'Index' })
+                        })
+                    }
+                    else {
+                        this.$swal(
+                            'Cancelled',
+                            'Pay cancelled!',
+                            'error'
+                        )
+                    }
+                });
+            }
+
+        }
+    },
     data: () => ({
         valid: true,
-
         firstname: '',
         lastname: '',
         email: '',
@@ -168,9 +200,8 @@ export default {
         city: '',
         address: '',
         card_number: '',
-
-        card_exp_month: numberGenerator(12),
-        card_exp_year: rangeGenerator(2022, 2033),
+        card_exp_month: Array.from({ length: 12 }, (_, i) => i + 1),
+        card_exp_year: Array.from({ length: 22 }, (_, i) => i + 2022),
         card_cvv: '',
         basicRules: [
             v => !!v || 'Is required',
@@ -187,18 +218,7 @@ export default {
             v => !!v || 'E-mail is required',
             v => /.+@.+/.test(v) || 'E-mail must be valid',
         ],
-    }),
-    methods: {
-        async pay() {
-            let formValid = await this.$refs.form.validate();
-            if (formValid.valid) {
-                console.log('pay');
-            }
-            else {
-                console.log('errorpay');
-            }
-        },
-    },
 
+    }),
 }
 </script>

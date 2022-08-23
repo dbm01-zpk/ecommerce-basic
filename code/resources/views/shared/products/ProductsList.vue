@@ -10,6 +10,8 @@
                                 {{ product.name }}
                             </v-card-title>
 
+                            <hr>
+
                             <v-card-subtitle>
                                 {{ product.description }}
                             </v-card-subtitle>
@@ -43,9 +45,25 @@
         </v-row>
 
         <v-row>
-            <v-pagination v-model="page" :length="total" total-visible="7" @click="getAllProducts" v-if="totalItems">
+            <v-pagination v-if="totalItems" v-model="page" :length="total" total-visible="7" @click="getAllProducts">
             </v-pagination>
         </v-row>
+
+        <v-snackbar :timeout="snackbar.timeout" v-model="snackbar.status" vertical>
+            <div class="text-subtitle-1 pb-2">
+                <v-icon>mdi-cart</v-icon>
+                Cart
+            </div>
+
+            {{ snackbar.text }}
+
+            <template v-slot:actions>
+                <v-btn variant="text" @click="snackbar.status = false">
+                    Close
+                </v-btn>
+            </template>
+        </v-snackbar>
+
 
     </v-container>
 </template>
@@ -61,9 +79,13 @@ export default {
             page: 1,
             totalItems: 0,
             total: 0,
+            snackbar: {
+                status: false,
+                timeout: 2000,
+                text: ''
+            }
+
         }
-    },
-    computed: {
     },
     mounted() {
         this.getAllProducts()
@@ -80,10 +102,13 @@ export default {
             this.totalItems = meta.total;
         },
         addToCart(id) {
+            let product = this.products.find(item => item.id === id);
 
+            this.snackbar.text = `You added ${product.name} to your cart`;
+            this.snackbar.status = true;
             this.$store.dispatch(
                 'cart/addToCart',
-                this.products.find(item => item.id === id)
+                product
             );
         }
     }

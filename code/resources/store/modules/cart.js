@@ -44,7 +44,10 @@ const mutations = {
                 }
             }
         })
-    }
+    },
+    checkout(state) {
+        state.items = [];
+    },
 };
 
 const actions = {
@@ -76,14 +79,17 @@ const actions = {
         context.dispatch('localStoreCart');
     },
 
-    localStoreCart(context) {
-        localStorage.setItem('cart-items', JSON.stringify(context.state.items));
-    },
-
     delItem(context, delItem) {
         context.commit('delItem', delItem);
         context.dispatch('localStoreCart');
-    }
+    },
+    checkout(context) {
+        context.commit('checkout');
+        context.dispatch('localStoreCart');
+    },
+    localStoreCart(context) {
+        localStorage.setItem('cart-items', JSON.stringify(context.state.items));
+    },
 }
 
 
