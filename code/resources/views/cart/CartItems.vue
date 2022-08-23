@@ -17,7 +17,7 @@
                     Price
                 </th>
 
-                <th v-show="isEditable" class="text-left" width="10%">
+                <th class="text-left" width="10%">
                     Actions
                 </th>
             </tr>
@@ -27,6 +27,7 @@
             <tr v-for="item in items" :key="item.item.id">
 
                 <td>
+
                     {{ item.item.name }}
                 </td>
 
@@ -50,8 +51,13 @@
                     $ {{ item.item.price * item.total }}
                 </td>
 
-                <td v-show="isEditable">
-                    <v-btn @click="deleteItem(item)">
+                <td>
+                    <v-btn class="mr-2" :rounded="0" variant="outlined" size="small"
+                        :to="{ name: 'products.show', params: { 'product_slug': item.item.slug } }">
+                        <v-icon>mdi-eye</v-icon>
+                    </v-btn>
+
+                    <v-btn @click="deleteItem(item)" :rounded="0" variant="outlined" size="small" v-show="isEditable">
                         <v-icon small color="red">
                             mdi-trash-can
                         </v-icon>

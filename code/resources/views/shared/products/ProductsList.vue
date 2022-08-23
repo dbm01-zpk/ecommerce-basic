@@ -1,8 +1,7 @@
 <template>
     <v-container fluid>
         <v-row>
-
-            <v-col cols="3" v-for="product in products" :key="product.id">
+            <v-col lg="4" md="6" xs="12" v-for="product in products" :key="product.id">
                 <v-card>
                     <div class="d-flex flex-no-wrap justify-space-between">
                         <div>
@@ -19,6 +18,11 @@
                             <v-card-actions>
                                 <v-chip color="success">$ {{ product.price }}</v-chip>
 
+                                <v-btn class="ml-2" variant="outlined" size="small"
+                                    :to="{ name: 'products.show', params: { 'product_slug': product.slug } }">
+                                    <v-icon>mdi-eye</v-icon>
+                                    View
+                                </v-btn>
                                 <v-btn class="ml-2" variant="outlined" size="small" @click="addToCart(product.id)">
                                     <v-icon>mdi-cart</v-icon>
                                     Add to Cart
