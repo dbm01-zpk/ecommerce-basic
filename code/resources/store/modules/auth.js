@@ -15,6 +15,7 @@ const mutations = {
         state.token = token;
     },
     destroyToken(state) {
+        
         state.token = null;
         state.user = {};
     }

@@ -1,3 +1,4 @@
+import ProductServices from '../../services/products'
 const state = {
     products: {}
 }
@@ -15,16 +16,19 @@ const mutations = {
 };
 
 const actions = {
-    updateProducts (context, products) {
+    updateProducts(context, products) {
         context.commit('updateProducts', products)
+    },
+    deleteProducts(context, product) {
+        ProductServices.deleteProduct(product.slug)
     }
 }
 
 
 export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations
+    namespaced: true,
+    state,
+    getters,
+    actions,
+    mutations
 }

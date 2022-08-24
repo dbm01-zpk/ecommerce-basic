@@ -7,19 +7,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Src\Users\Application\SearchUser;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
-{
+class UserController extends Controller {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $users = User::all();
+    public function index(Request $request, SearchUser $search) {
+        $page  = $request->page ?? 1;
+        $users = $search->paginate(page:$page);
         return UserResource::collection($users);
+
     }
 
     /**
@@ -27,8 +28,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         //
     }
 
@@ -38,8 +38,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreUserRequest $request)
-    {
+    public function store(StoreUserRequest $request) {
         # Pass to use case -> UserRegister
         return (new RegisterController)->register($request);
     }
@@ -50,8 +49,7 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
-    {
+    public function show(User $user) {
         return new UserResource($user);
     }
 
@@ -61,8 +59,7 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
-    {
+    public function edit(User $user) {
         //
     }
 
@@ -73,19 +70,17 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreUserRequest $request, User $user)
-    {
+    public function update(StoreUserRequest $request, User $user) {
 
         $input             = $request->all();
         $input['password'] = bcrypt($input['password']);
 
         $user->name     = $input['name'];
-        $user->email    = $input['email'];
         $user->password = $input['password'];
 
         $user->save();
 
-        return new UserResource($suer);
+        return new UserResource($user);
     }
 
     /**
@@ -94,8 +89,7 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
-    {
+    public function destroy(User $user) {
         $user->delete();
         return response(null, 204);
     }

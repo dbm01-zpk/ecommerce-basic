@@ -31,8 +31,8 @@ const vuetify = createVuetify({
 })
 
 const app = createApp({});
-app.use(router);
 app.use(store);
+app.use(router);
 app.use(vuetify);
 app.use(VueSweetalert2);
 

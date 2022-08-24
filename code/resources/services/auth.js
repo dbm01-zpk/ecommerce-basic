@@ -1,34 +1,19 @@
-import axios from "axios";
-
-let params = {
-    withCredentials: false,
-    headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    }
-}
-
-let token;
-if (token = localStorage.getItem('access_token')) {
-    params.headers.Authorization = 'Bearer ' + token
-}
-
-const apiClient = axios.create(params)
+import ApiBase from "./ApiBase";
 
 export default {
     login(credentials) {
-        return apiClient.post('/api/login', {
+        return ApiBase().post('/api/login', {
             email: credentials.email,
             password: credentials.password,
         })
     },
 
     logout() {
-        return apiClient.post('/api/logout')
+        return ApiBase().post('/api/logout')
     },
 
     register(data) {
-        return apiClient.post('/api/register', {
+        return ApiBase().post('/api/register', {
             name: data.name,
             email: data.email,
             password: data.password,

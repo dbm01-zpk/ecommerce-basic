@@ -49,12 +49,11 @@ class RegisterController extends BaseController {
 
     }
 
-    public function logout() {
-        auth()->user()->tokens->each(function ($token, $key) {
-            $token->delete();
-        });
-
-        return $this->sendError('Logged out successfully', 200);
+    public function logout(Request $request) {
+        foreach ($request->user()->tokens as $token) {
+            $token->revoke();
+        }
+        return $this->sendResponse('Logged out successfully', 200);
     }
 
 }

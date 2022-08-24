@@ -26,23 +26,30 @@
             </v-list-item>
 
             <!-- If user is logged in -->
-            <v-list-subheader>Dashboard</v-list-subheader>
+            <v-list-subheader v-if="loggedIn">Dashboard</v-list-subheader>
+            <v-list-item :to="{ name: 'products.list' }" v-if="loggedIn">
+                <v-icon>mdi-package-variant</v-icon>
+                <v-list-item-title>Products</v-list-item-title>
+            </v-list-item>
+            <v-list-item :to="{ name: 'users.list' }" v-if="loggedIn">
+                <v-icon>mdi-account</v-icon>
+                <v-list-item-title>Users</v-list-item-title>
+            </v-list-item>
+
             <v-list-subheader>Auth</v-list-subheader>
 
-            <v-list-item :to="{ name: 'register' }">
+            <v-list-item :to="{ name: 'register' }" v-if="!loggedIn">
                 <v-icon>mdi-account-plus</v-icon>
                 <v-list-item-title>Register</v-list-item-title>
             </v-list-item>
 
-            <v-list-item :to="{ name: 'login' }">
+            <v-list-item :to="{ name: 'login' }" v-if="!loggedIn">
                 <v-icon>mdi-login</v-icon>
-
                 <v-list-item-title>Login</v-list-item-title>
             </v-list-item>
 
-            <v-list-item v-on:click="logout">
+            <v-list-item v-on:click="logout" v-if="loggedIn">
                 <v-icon>mdi-exit-run</v-icon>
-
                 <v-list-item-title>Logout</v-list-item-title>
             </v-list-item>
 
@@ -61,7 +68,7 @@ export default {
         group: null,
         items: [
             {
-                title: 'Products',
+                title: 'Catalog',
                 icon: 'mdi-package-variant',
                 value: 'Index',
             },
@@ -85,7 +92,8 @@ export default {
     computed: {
         ...mapGetters(
             {
-                itemsQuantity: 'cart/getItemsTotal'
+                itemsQuantity: 'cart/getItemsTotal',
+                loggedIn: 'auth/loggedIn',
             })
     },
     methods: {
@@ -95,10 +103,18 @@ export default {
         logout() {
             AuthService.logout()
                 .then(response => {
-                    this.$router.push({ name: "Index" })
                     this.$store.dispatch('auth/destroyToken')
+
+                    this.$swal(
+                        'Logout',
+                        'See you soon!!!',
+                        'success'
+                    ).then(() => {
+                        this.$router.push({ name: "Index" })
+                    });
+
                 });
-            }
+        }
     }
 }
 </script>

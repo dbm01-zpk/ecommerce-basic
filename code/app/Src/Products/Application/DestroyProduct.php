@@ -1,8 +1,9 @@
 <?php
 namespace App\Src\Products\Application;
 
-class DestroyProduct
-{
+use App\Models\Product;
+
+class DestroyProduct {
     public function __invoke(
         Product $product
     ): bool {
