@@ -53,5 +53,4 @@ services:
       - .env
 
     volumes:
-      - ./db/datos/:/var/lib/mysql:z
       - ./db/conf/my.cnf:/etc/mysql/my.cnf:z
