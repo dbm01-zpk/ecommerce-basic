@@ -21,7 +21,7 @@ build:
 
 	docker-compose build
 	docker-compose run app composer install
-	docker-compose run app php artisan migrate
+	docker-compose run app php artisan migrate --seed
 	docker-compose run app php artisan passport:install
 	docker-compose run app php artisan key:generate
 	@cd code; npm install; npm run build
