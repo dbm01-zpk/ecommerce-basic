@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\UserController;
@@ -16,9 +18,10 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::post('register', [RegisterController::class, 'register']);
-Route::post('login', [RegisterController::class, 'login']);
-Route::middleware('auth:api')->post('logout', [RegisterController::class, 'logout']);
+Route::post('register', RegisterController::class);
+Route::post('login', LoginController::class);
+Route::middleware('auth:api')->post('logout', LogoutController::class);
+
 Route::middleware('auth:api')->group(function () {
     Route::apiResource('products', ProductController::class)->only([
         'store',
@@ -26,7 +29,9 @@ Route::middleware('auth:api')->group(function () {
         'update',
         'destroy',
     ]);
+
     Route::apiResource('users', UserController::class);
+
 });
 
 # Public

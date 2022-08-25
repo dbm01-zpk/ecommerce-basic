@@ -74,7 +74,7 @@ export default {
         },
         async saveUser() {
             let user_id = this.$route.params.user_id
-            await UserServices.updateUser(user_id, user)
+            await UserServices.updateUser(user_id, this.user)
                 .then(response => {
                     this.$swal(
                         'Success!!!',

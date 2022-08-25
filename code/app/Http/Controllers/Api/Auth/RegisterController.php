@@ -4,56 +4,21 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Api\BaseController as BaseController;
 use App\Http\Requests\StoreUserRequest;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Src\Users\Application\RegisterUser;
 
 class RegisterController extends BaseController {
 
-    /**
-     * Register api
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __invoke(StoreUserRequest $request, RegisterUser $register) {
 
-    public function register(StoreUserRequest $request) {
-
-        $input             = $request->all();
-        $input['password'] = bcrypt($input['password']);
-        $user              = User::create($input);
-        $success['token']  = $user->createToken('e-commerce')->accessToken;
-        $success['name']   = $user->name;
+        $success = $register(
+            $request->name,
+            $request->email,
+            $request->password,
+            $request->c_password,
+        );
 
         return $this->sendResponse($success, 'User register successfully.');
 
-    }
-
-    /**
-     * Login api
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-    public function login(Request $request) {
-
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            $user             = Auth::user();
-            $success['token'] = $user->createToken('e-commerce')->accessToken;
-            $success['name']  = $user->name;
-            return $this->sendResponse($success, 'User login successfully.');
-
-        } else {
-            return $this->sendError('Unauthorised.', ['error' => 'Unauthorised'], 401);
-
-        }
-
-    }
-
-    public function logout(Request $request) {
-        foreach ($request->user()->tokens as $token) {
-            $token->revoke();
-        }
-        return $this->sendResponse('Logged out successfully', 200);
     }
 
 }

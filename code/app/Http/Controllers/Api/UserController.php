@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Api\Auth\RegisterController;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Src\Users\Application\DestroyUser;
+use App\Src\Users\Application\RegisterUser;
 use App\Src\Users\Application\SearchUser;
+use App\Src\Users\Application\UpdateUser;
 use Illuminate\Http\Request;
 
-class UserController extends Controller {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+class UserController extends BaseController {
+
     public function index(Request $request, SearchUser $search) {
         $page  = $request->page ?? 1;
         $users = $search->paginate(page:$page);
@@ -23,74 +21,31 @@ class UserController extends Controller {
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create() {
-        //
+    public function store(StoreUserRequest $request, RegisterUser $register) {
+        $success = $register(
+            $request->name,
+            $request->email,
+            $request->password,
+            $request->c_password,
+        );
+
+        return $this->sendResponse($success, 'User register successfully.');
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreUserRequest $request) {
-        # Pass to use case -> UserRegister
-        return (new RegisterController)->register($request);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function show(User $user) {
         return new UserResource($user);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user) {
-        //
-    }
+    public function update(StoreUserRequest $request, User $user, UpdateUser $update) {
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function update(StoreUserRequest $request, User $user) {
-
-        $input             = $request->all();
-        $input['password'] = bcrypt($input['password']);
-
-        $user->name     = $input['name'];
-        $user->password = $input['password'];
-
-        $user->save();
+        $user = $update($user, $request->validate());
 
         return new UserResource($user);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user) {
-        $user->delete();
+    public function destroy(User $user, DestroyUser $destroy) {
+        $destroy($user);
         return response(null, 204);
     }
 }

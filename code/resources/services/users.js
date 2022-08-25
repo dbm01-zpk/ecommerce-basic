@@ -13,7 +13,7 @@ export default {
         return ApiBase().post('/api/users', data)
     },
 
-    updateUser(data, id) {
+    updateUser(id, data) {
         return ApiBase().put('/api/users/' + id, data)
     },
 

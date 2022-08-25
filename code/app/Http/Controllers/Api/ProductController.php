@@ -12,15 +12,13 @@ use App\Src\Products\Application\StoreProduct;
 use App\Src\Products\Application\UpdateProduct;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
-{
+class ProductController extends Controller {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, SearchProduct $search)
-    {
+    public function index(Request $request, SearchProduct $search) {
         $page     = $request->page ?? 1;
         $products = $search->paginate(page:$page);
         return ProductResource::collection($products);
@@ -31,8 +29,7 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         //
     }
 
@@ -42,14 +39,12 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProductRequest $request, StoreProduct $store)
-    {
+    public function store(StoreProductRequest $request, StoreProduct $store) {
         $product = $store(
             $request->name,
             $request->description,
             $request->price,
             $request->status
-
         );
 
         return new ProductResource($product);
@@ -61,8 +56,7 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
-    {
+    public function show(Product $product) {
         return new ProductResource($product);
     }
 
@@ -72,8 +66,7 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
-    {
+    public function edit(Product $product) {
         //
     }
 
@@ -84,8 +77,7 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreProductRequest $request, Product $product, UpdateProduct $update)
-    {
+    public function update(StoreProductRequest $request, Product $product, UpdateProduct $update) {
         $product = $update(
             $product,
             $request->validated()
@@ -100,8 +92,7 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product, DestroyProduct $destroy)
-    {
+    public function destroy(Product $product, DestroyProduct $destroy) {
 
         $destroy($product);
 

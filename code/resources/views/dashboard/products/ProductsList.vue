@@ -5,7 +5,7 @@
             <v-col cols="12" v-for="product in products" :key="product.id">
                 <v-card>
                     <v-row>
-                        <v-col sm="2" aling="center" justify="center">
+                        <v-col sm="2">
                             <v-avatar size="150" rounded="0">
                                 <v-img src="/images/item.png"></v-img>
                             </v-avatar>
@@ -20,39 +20,42 @@
                             <v-card-title>
                                 PRICE: $ {{ product.price }}
                             </v-card-title>
+
                             <v-card-subtitle>
                                 {{ product.description }}
                             </v-card-subtitle>
 
                             <v-card-actions>
-                                <v-list-item class="grow">
-                                    <v-row>
-                                        <v-btn class="ml-2" variant="outlined" size="small"
-                                            :to="{ name: 'products.show', params: { 'product_slug': product.slug } }">
+                                <v-container>
+                                    <v-row dense>
+                                        <v-btn variant="outlined" size="small" :to="{
+                                            name: 'products.show',
+                                            params: { 'product_slug': product.slug }
+                                        }">
                                             <v-icon>mdi-eye</v-icon>
                                             View
                                         </v-btn>
 
-                                        <v-btn class="ml-2" variant="outlined" size="small"
-                                            @click="addToCart(product.id)">
+                                        <v-btn variant="outlined" size="small" @click="addToCart(product.id)">
                                             <v-icon>mdi-cart</v-icon>
                                             Add to Cart
                                         </v-btn>
 
-                                        <v-btn class="ml-2" variant="outlined" size="small"
-                                            :to="{ name: 'product.edit', params: { 'product_slug': product.slug } }"
-                                            v-if="loggedIn">
+                                        <v-btn variant="outlined" size="small" :to="{
+                                            name: 'product.edit',
+                                            params: { 'product_slug': product.slug }
+                                        }" v-if="loggedIn">
                                             <v-icon>mdi-circle-edit-outline</v-icon>
                                             Edit
                                         </v-btn>
 
-                                        <v-btn class="ml-2" variant="outlined" size="small" color="red"
+                                        <v-btn variant="outlined" size="small" color="red"
                                             @click="deleteProduct(product.id)" v-if="loggedIn">
                                             <v-icon>mdi-trash-can</v-icon>
                                             Delete
                                         </v-btn>
                                     </v-row>
-                                </v-list-item>
+                                </v-container>
 
 
 
