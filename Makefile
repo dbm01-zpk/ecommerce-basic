@@ -14,11 +14,16 @@ run/fix:
 
 build:
 	@echo "🦖 -> BUILD:"
+
+	# Create env files
 	@if [ ! -f .env ]; then cp .env.example .env; fi
+	@if [ ! -f code/.env ]; then cp code/.env.example code/.env; fi
+
 	docker-compose build
 	docker-compose run app composer install
 	docker-compose run app php artisan migrate
 	docker-compose run app php artisan passport:install
+	docker-compose run app php artisan key:generate
 	@cd code; npm install; npm run build
 	
 test: test/all
