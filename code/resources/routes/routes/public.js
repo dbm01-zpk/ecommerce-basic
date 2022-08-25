@@ -1,7 +1,7 @@
 
 import NotFound from '../../views/error/NotFound.vue'
 import Index from '../../views/public/Index.vue'
-import ProductsShow from '../../views/products/ProductsShow.vue'
+import ProductsShow from '../../views/dashboard/products/ProductsShow.vue'
 import Cart from '../../views/cart/CartDetails.vue'
 import Checkout from '../../views/cart/CheckoutItems.vue'
 import Register from '../../views/public/auth/Register.vue'

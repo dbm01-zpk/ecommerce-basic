@@ -3,18 +3,20 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Api\BaseController as BaseController;
+use App\Src\Users\Application\LoginUser;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class LoginController extends BaseController {
 
-    public function __invoke(Request $request) {
+    public function __invoke(Request $request, LoginUser $login) {
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            $user             = Auth::user();
-            $success['token'] = $user->createToken('e-commerce')->accessToken;
-            $success['name']  = $user->name;
-            return $this->sendResponse($success, 'User login successfully.');
+        $success = $login($request->email, $request->password);
+
+        if ($success['success']) {
+            return $this->sendResponse(
+                $success['data'],
+                'User login successfully.'
+            );
 
         } else {
             return $this->sendError('Unauthorised.', ['error' => 'Unauthorised'], 401);

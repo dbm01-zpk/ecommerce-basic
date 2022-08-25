@@ -11,35 +11,23 @@ use App\Src\Products\Application\SearchProduct;
 use App\Src\Products\Application\StoreProduct;
 use App\Src\Products\Application\UpdateProduct;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductController extends Controller {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request, SearchProduct $search) {
+
+    public function index(
+        Request $request,
+        SearchProduct $search
+    ): JsonResource {
         $page     = $request->page ?? 1;
         $products = $search->paginate(page:$page);
         return ProductResource::collection($products);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create() {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreProductRequest $request, StoreProduct $store) {
+    public function store(
+        StoreProductRequest $request,
+        StoreProduct $store
+    ): ProductResource {
         $product = $store(
             $request->name,
             $request->description,
@@ -50,34 +38,15 @@ class ProductController extends Controller {
         return new ProductResource($product);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Product $product) {
+    public function show(Product $product): ProductResource {
         return new ProductResource($product);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Product $product) {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function update(StoreProductRequest $request, Product $product, UpdateProduct $update) {
+    public function update(
+        StoreProductRequest $request,
+        Product $product,
+        UpdateProduct $update
+    ): ProductResource {
         $product = $update(
             $product,
             $request->validated()
@@ -86,13 +55,10 @@ class ProductController extends Controller {
         return new ProductResource($product);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Product $product, DestroyProduct $destroy) {
+    public function destroy(
+        Product $product,
+        DestroyProduct $destroy
+    ) {
 
         $destroy($product);
 

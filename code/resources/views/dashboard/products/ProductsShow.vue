@@ -36,7 +36,7 @@
 
 <script>
 
-import ProductServices from '../../services/products'
+import ProductServices from '../../../services/products'
 
 export default {
     data() {

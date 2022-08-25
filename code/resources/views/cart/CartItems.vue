@@ -17,7 +17,7 @@
                     Price
                 </th>
 
-                <th class="text-left" width="10%">
+                <th class="text-right" width="15%">
                     Actions
                 </th>
             </tr>
@@ -48,7 +48,7 @@
                 </td>
 
                 <td class="text-right">
-                    $ {{ item.item.price * item.total }}
+                    $ {{ item.total_price }}
                 </td>
 
                 <td>
@@ -103,7 +103,6 @@ export default {
             this.$store.dispatch('cart/setQuantityToCart', {
                 item: item,
                 total: item.total
-
             })
         },
     }

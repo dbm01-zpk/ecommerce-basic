@@ -2,6 +2,7 @@
 namespace App\Src\Users\Domain;
 
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 trait UserValidationTrait {
 
@@ -10,6 +11,15 @@ trait UserValidationTrait {
             throw new Exception("PASSWORD: Not is equal to confirm password.");
         }
 
+    }
+
+    public function invalidAttempt(string $email, string $password) {
+        if (Auth::attempt([
+            'email'    => $email,
+            'password' => $password,
+        ])) {
+            throw new Exception("Auth: Invalid attempt.");
+        }
     }
 
 }

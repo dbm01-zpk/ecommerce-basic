@@ -57,8 +57,6 @@
                                     </v-row>
                                 </v-container>
 
-
-
                             </v-card-actions>
 
                         </v-col>
