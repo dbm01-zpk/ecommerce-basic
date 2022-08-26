@@ -1,1 +1,0 @@
-{"buildTargets":["all","build","conf-init","fix","stop","test","test/all","test/feature","test/unit","up"],"launchTargets":[],"customConfigurationProvider":{"workspaceBrowse":{"browsePath":[],"compilerArgs":[]},"fileIndex":[]}}
