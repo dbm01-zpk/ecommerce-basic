@@ -22,7 +22,6 @@ RUN apt-get update && apt-get install -y \
     optipng \
     pngquant \
     gifsicle \
-    vim \
     unzip \
     git \
     curl \
@@ -42,10 +41,6 @@ RUN docker-php-ext-install pdo_mysql zip exif pcntl
 RUN docker-php-ext-configure gd --with-jpeg=/usr/include/ --with-freetype=/usr/include/
 RUN docker-php-ext-install gd
 
-# Redis
-RUN pecl install redis
-RUN docker-php-ext-enable redis
-
 RUN docker-php-ext-install soap
 
 # Install composer
@@ -58,8 +53,6 @@ RUN useradd -u 1000 -ms /bin/bash -g www www
 # BORRAR
 # Copy existing application directory contents
 COPY ./$APP_PATH_CODE/ /var/www
-
-RUN composer install
 
 # Copy existing application directory permissions
 COPY --chown=www:www ./$APP_PATH_CODE/ /var/www
