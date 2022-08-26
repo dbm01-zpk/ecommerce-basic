@@ -42,18 +42,36 @@ make test
 ```
 After run all test or feature test. We need run passport:install, its a bug to check.
 
-
 ### Feature tests
 
 ```bash
 make test/feature
 ```
+- Registration
+    - Response view
+    - Register new users
+    - Check password and confirm its same
+    - Validate not duplicated users
+    - Bad email format
+    - Validation rules of password
+
+- ECommerce/Products
+    - Authenticated create product
+    - Unauthenticated dont create product
+    - Authenticated error to create product with string price
 
 ### Unit test
+
+Run test
 
 ```bash
 make test/unit
 ```
 
+- ECommerce/Products
+    - Create products with use case class
+    - Edit product
+    - Edit product and renew 
+    - Delete products with use case class
 
 
