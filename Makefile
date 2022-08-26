@@ -16,6 +16,7 @@ build: # Init files and build all dependencies
 
 conf-init:
 	@echo "🦖 -> CONFIG:"
+	docker-compose run app composer install
 	docker-compose run app php artisan migrate
 	docker-compose run app php artisan passport:install
 	docker-compose run app php artisan key:generate
