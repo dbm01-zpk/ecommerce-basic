@@ -41,5 +41,8 @@ test/unit: # Run unit test
 fix: # Fix passport key after run test
 	docker-compose run app php artisan passport:install
 
-all: build conf-init up # Run all task for up service
+all: build conf-init up # Run all task for up service 
 
+
+help: # Información de ayuda
+	@egrep -h '\s#\s' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?# "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'

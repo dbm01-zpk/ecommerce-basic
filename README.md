@@ -3,6 +3,7 @@
 1. Requirements
 2. Run demo
 3. Test
+4. Help
 
 ## 📋 1. Requirements
 - docker-compose
@@ -73,5 +74,4 @@ make test/unit
     - Edit product
     - Edit product and renew 
     - Delete products with use case class
-
 
