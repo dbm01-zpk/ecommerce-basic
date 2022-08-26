@@ -1,18 +1,16 @@
 # E-Commerce
 
-## ✨ Requirements
-
-- Docker
+## 📋 Requirements
 - docker-compose
 - NodeJs 16.X
 
-## ✨ Build system
+## 🧪 Build system
 
 ```bash
 make build
 ```
 
-## ✨ Run project
+## 🦈 Run project
 
 ```bash
 make

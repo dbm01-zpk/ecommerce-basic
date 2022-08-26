@@ -59,6 +59,8 @@ RUN useradd -u 1000 -ms /bin/bash -g www www
 # Copy existing application directory contents
 COPY ./$APP_PATH_CODE/ /var/www
 
+RUN composer install
+
 # Copy existing application directory permissions
 COPY --chown=www:www ./$APP_PATH_CODE/ /var/www
 COPY --chown=www:www ./app/start.sh /usr/local/bin/start

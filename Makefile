@@ -20,7 +20,7 @@ build:
 	@if [ ! -f code/.env ]; then cp code/.env.example code/.env; fi
 
 	docker-compose build
-	docker-compose run app composer install
+	# docker-compose run app composer install
 	docker-compose run app php artisan migrate
 	docker-compose run app php artisan passport:install
 	docker-compose run app php artisan key:generate
